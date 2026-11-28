@@ -19,8 +19,8 @@ export default async function HomePage() {
   return (
     <>
       <Intro settings={settings} featuredProduct={products[0]} products={products} />
-      <section aria-labelledby="titulo-produtos" className="container-page pt-16 md:pt-20">
-        <div className="mb-9 flex items-end justify-between gap-4 border-b border-stone/25 pb-5">
+      <section aria-labelledby="titulo-produtos" className="container-page pt-12 md:pt-20">
+        <div className="mb-7 flex items-end justify-between gap-4 border-b border-stone/25 pb-4 md:mb-9 md:pb-5">
           <h2 id="titulo-produtos" className="flex items-center gap-3 text-3xl md:text-4xl"><FluteMark className="text-amber" /> Produtos</h2>
           {all.length > 0 && <Link href="/catalogo" className="min-h-[44px] content-center text-navy underline underline-offset-4 hover:text-ink">Ver tudo</Link>}
         </div>

@@ -290,7 +290,33 @@ body:has(form[aria-busy="true"]) .product-grid { opacity: .55; transition: opaci
 .footer-ribbon-track i { color:#CD8032; font-style:normal; font-size:.9rem; }
 .footer-ribbon:hover .footer-ribbon-track { animation-play-state:paused; }
 @keyframes footer-ribbon-flow { to { transform:translateX(-50%); } }
-@media (max-width:767px) { .hero-feature { max-width:290px; } .product-rail { margin-inline:-1.25rem; } .product-rail-item { width:min(68vw,260px); scroll-snap-align:start; } }
+@media (max-width:767px) {
+  .hero-feature { max-width:290px; }
+  .product-rail { margin-inline:-1.25rem; padding-inline:1.25rem; }
+  .product-rail-item { width:min(62vw,232px); scroll-snap-align:start; }
+  /* Avoid Android compositor seams from filtered, transformed cards in a scroller. */
+  .product-rail-item article {
+    padding:.45rem;
+    border:1px solid rgba(174,195,216,.72);
+    border-radius:.85rem;
+    background:rgba(255,255,255,.96);
+    background-image:none;
+    box-shadow:0 6px 16px rgba(19,42,70,.09);
+    transform:none;
+    -webkit-backdrop-filter:none;
+    backdrop-filter:none;
+  }
+  .product-rail-item article::after { content:none; }
+  .product-rail-item article:hover,
+  .product-rail-item article:focus-within { transform:none; box-shadow:0 6px 16px rgba(19,42,70,.09); }
+  .product-rail-item .product-name { font-size:1.08rem; }
+  .product-rail-item article .mt-4 { padding-inline:.2rem; }
+  .product-image-frame { background:#F5F7F9; }
+  .product-image-frame .product-image { mix-blend-mode:normal; }
+  .product-card-entrance article,
+  .product-grid article { -webkit-backdrop-filter:none; backdrop-filter:none; }
+  .product-marquee-track { font-size:.78rem; letter-spacing:.14em; }
+}
 @media (prefers-reduced-motion:reduce) { .hero-atmosphere::before,.hero-atmosphere::after,.hero-atmosphere span,.hero-bottom-line,.hero-photo-orbit,.product-rail-track,.footer-ribbon-track { animation:none!important; } .product-rail { overflow-x:auto; } .hero-photo-frame,.hero-photo-arrow { transition:none; } .hero-product-image { animation:none; } }
 
 
