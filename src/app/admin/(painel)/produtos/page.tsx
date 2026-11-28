@@ -8,6 +8,7 @@ import { primaryImage, productAvailability } from "@/lib/domain/availability";
 import { formatBRL, normalizeText } from "@/lib/domain/format";
 import { requireAdminPage } from "@/lib/auth";
 import { getAdminProducts } from "@/lib/services/admin";
+import { SelectField } from "@/components/ui/SelectField";
 
 export const metadata: Metadata = { title: "Produtos" };
 
@@ -32,7 +33,7 @@ export default async function ProductsAdminPage({ searchParams }: { searchParams
       <form className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end" role="search">
         <div className="flex-1"><label htmlFor="q" className="label">Buscar pelo nome</label><input id="q" name="q" defaultValue={sp.q ?? ""} className="field" maxLength={80} /></div>
         <div className="sm:w-56"><label htmlFor="status" className="label">Situação</label>
-          <select id="status" name="status" defaultValue={status} className="field">{STATUS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select></div>
+          <SelectField key={status} id="status" name="status" defaultValue={status} options={STATUS.map(([value, label]) => ({ value, label }))} /></div>
         <button className="btn-primary" type="submit">Filtrar</button>
       </form>
 

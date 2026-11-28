@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import type { Category } from "@/types";
 import { SORT_OPTIONS, catalogHref, countActiveFilters, type CatalogQuery } from "@/lib/domain/catalog";
 import { FilterIcon, SearchIcon } from "@/components/ui/Icons";
+import { SelectField } from "@/components/ui/SelectField";
 
 interface Props {
   categories: Pick<Category, "id" | "name" | "slug">[];
@@ -45,9 +46,7 @@ export function CatalogFilters({ categories, query, total }: Props) {
         </div>
         <div className="sm:w-56">
           <label htmlFor="ordem" className="label">Ordenar por</label>
-          <select id="ordem" name="ordem" className="field" value={query.ordem} onChange={(e) => go({ ordem: e.target.value as CatalogQuery["ordem"] })}>
-            {SORT_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-          </select>
+          <SelectField id="ordem" name="ordem" value={query.ordem} options={SORT_OPTIONS} onValueChange={(value) => go({ ordem: value as CatalogQuery["ordem"] })} />
         </div>
         <button type="button" className="btn-outline md:hidden" aria-expanded={open} aria-controls="painel-filtros" onClick={() => setOpen((v) => !v)}>
           <FilterIcon /> Filtros{active > 0 ? ` (${active})` : ""}
@@ -58,26 +57,15 @@ export function CatalogFilters({ categories, query, total }: Props) {
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-[repeat(3,minmax(0,1fr))_minmax(0,1.3fr)]">
           <div>
             <label htmlFor="categoria" className="label">Categoria</label>
-            <select id="categoria" name="categoria" className="field" value={query.categoria} onChange={(e) => go({ categoria: e.target.value })}>
-              <option value="">Todas</option>
-              {categories.map((c) => <option key={c.id} value={c.slug}>{c.name}</option>)}
-            </select>
+            <SelectField id="categoria" name="categoria" value={query.categoria} options={[{ value: "", label: "Todas" }, ...categories.map((c) => ({ value: c.slug, label: c.name }))]} onValueChange={(value) => go({ categoria: value })} />
           </div>
           <div>
             <label htmlFor="disponibilidade" className="label">Disponibilidade</label>
-            <select id="disponibilidade" name="disponibilidade" className="field" value={query.disponibilidade} onChange={(e) => go({ disponibilidade: e.target.value as CatalogQuery["disponibilidade"] })}>
-              <option value="">Todas</option>
-              <option value="disponivel">Disponível</option>
-              <option value="esgotado">Esgotado</option>
-            </select>
+            <SelectField id="disponibilidade" name="disponibilidade" value={query.disponibilidade} options={[{ value: "", label: "Todas" }, { value: "disponivel", label: "Disponível" }, { value: "esgotado", label: "Esgotado" }]} onValueChange={(value) => go({ disponibilidade: value as CatalogQuery["disponibilidade"] })} />
           </div>
           <div>
             <label htmlFor="venda" className="label">Modalidade</label>
-            <select id="venda" name="venda" className="field" value={query.venda} onChange={(e) => go({ venda: e.target.value as CatalogQuery["venda"] })}>
-              <option value="">Todas</option>
-              <option value="pronta_entrega">Pronta entrega</option>
-              <option value="sob_encomenda">Sob encomenda</option>
-            </select>
+            <SelectField id="venda" name="venda" value={query.venda} options={[{ value: "", label: "Todas" }, { value: "pronta_entrega", label: "Pronta entrega" }, { value: "sob_encomenda", label: "Sob encomenda" }]} onValueChange={(value) => go({ venda: value as CatalogQuery["venda"] })} />
           </div>
           <fieldset>
             <legend className="label">Faixa de preço (R$)</legend>

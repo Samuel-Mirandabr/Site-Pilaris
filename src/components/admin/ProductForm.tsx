@@ -9,6 +9,7 @@ import { ConfirmDialog } from "./ConfirmDialog";
 import { Field } from "./Field";
 import { ProductImagesEditor, type ImgState } from "./ProductImagesEditor";
 import { useToast } from "./Toast";
+import { SelectField } from "@/components/ui/SelectField";
 
 interface VarState { key: string; id?: string; name: string; value: string; stockControlType: "quantity" | "simple" | "none"; stockQuantity: string; simpleAvailability: boolean; active: boolean }
 type Cat = { id: string; name: string; active: boolean };
@@ -120,9 +121,7 @@ export function ProductForm({ product, categories }: { product?: Product; catego
         <div className="grid gap-5 sm:grid-cols-2">
           <Field label="Categoria" required error={err("categoryId")}>
             {(p) => (
-              <select {...p} className="field" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
-                {categories.map((c) => <option key={c.id} value={c.id}>{c.name}{c.active ? "" : " (inativa)"}</option>)}
-              </select>
+              <SelectField id={p.id} describedBy={p["aria-describedby"]} invalid={p["aria-invalid"]} value={categoryId} options={categories.map((c) => ({ value: c.id, label: `${c.name}${c.active ? "" : " (inativa)"}` }))} onValueChange={setCategoryId} />
             )}
           </Field>
           <Field label="Preço (R$)" required error={err("price")} hint={price && !Number.isNaN(parsePriceInput(price)) ? `Será exibido como ${formatBRL(parsePriceInput(price))}` : undefined}>
@@ -153,11 +152,7 @@ export function ProductForm({ product, categories }: { product?: Product; catego
           <>
             <Field label="Como controlar o estoque" error={err("stockControlType")}>
               {(p) => (
-                <select {...p} className="field sm:max-w-sm" value={control} onChange={(e) => setControl(e.target.value as typeof control)}>
-                  <option value="quantity">Por quantidade</option>
-                  <option value="simple">Simples (disponível ou indisponível)</option>
-                  <option value="variant">Por variação (ex.: cada tamanho)</option>
-                </select>
+                <SelectField id={p.id} describedBy={p["aria-describedby"]} invalid={p["aria-invalid"]} className="field sm:max-w-sm" value={control} options={[{ value: "quantity", label: "Por quantidade" }, { value: "simple", label: "Simples (disponível ou indisponível)" }, { value: "variant", label: "Por variação (ex.: cada tamanho)" }]} onValueChange={(value) => setControl(value as typeof control)} />
               )}
             </Field>
             {control === "quantity" && (
@@ -199,7 +194,7 @@ export function ProductForm({ product, categories }: { product?: Product; catego
                   {perVariant && (
                     <div className="grid gap-3 sm:col-span-3 sm:grid-cols-[12rem_1fr]">
                       <Field label="Estoque desta opção" error={err(`variants.${i}.stockControlType`)}>
-                        {(p) => <select {...p} className="field" value={v.stockControlType} onChange={(e) => set({ stockControlType: e.target.value as VarState["stockControlType"] })}><option value="quantity">Por quantidade</option><option value="simple">Disponível/indisponível</option></select>}
+                        {(p) => <SelectField id={p.id} describedBy={p["aria-describedby"]} invalid={p["aria-invalid"]} value={v.stockControlType} options={[{ value: "quantity", label: "Por quantidade" }, { value: "simple", label: "Disponível/indisponível" }]} onValueChange={(value) => set({ stockControlType: value as VarState["stockControlType"] })} />}
                       </Field>
                       {v.stockControlType === "quantity" ? (
                         <Field label="Quantidade" error={err(`variants.${i}.stockQuantity`)}>{(p) => <input {...p} className="field sm:max-w-[10rem]" inputMode="numeric" value={v.stockQuantity} onChange={(e) => set({ stockQuantity: e.target.value.replace(/\D/g, "") })} />}</Field>
