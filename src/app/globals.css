@@ -612,7 +612,11 @@ body::after { display: none; }
   }
   .product-rail::before,
   .product-rail::after { content: none; }
-  .product-rail-track,
+  .product-rail-track {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
   .product-rail-set {
     display: grid;
     width: 100%;
@@ -620,6 +624,8 @@ body::after { display: none; }
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: .85rem;
     padding: 0;
+    justify-content: stretch;
+    align-items: stretch;
   }
   .product-rail-set { flex: initial; }
   .product-rail-item {
