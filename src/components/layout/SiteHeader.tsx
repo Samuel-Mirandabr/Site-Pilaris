@@ -19,7 +19,7 @@ export function SiteHeader({ settings }: { settings: StoreSettings }) {
     <header className={"site-header glass-header sticky top-0 z-20 border-b bg-white transition-[box-shadow,border-color] duration-200 " + (compact ? "site-header-compact border-navy/25" : "border-stone/20")}>
       <div className="container-page flex h-[84px] items-center justify-between gap-4 md:h-[84px] md:gap-6">
         <Link href="/" aria-label={settings.storeName + " — página inicial"} className="site-logo shrink-0">
-          <Image src="/brand/logo-pilaris.png" alt={settings.storeName + " — " + settings.slogan} width={900} height={775} priority
+          <Image src="/brand/logo-pilaris-header.png" alt={settings.storeName} width={900} height={775} priority
             className="h-[68px] w-auto md:h-[68px]" />
         </Link>
         <HeaderNav whatsappHref={whatsappHref} />
